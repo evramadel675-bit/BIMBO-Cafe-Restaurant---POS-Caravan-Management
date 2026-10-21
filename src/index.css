@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #0c0a09;
+    color: #f5f5f4;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Custom Sleek Dark & Amber Scrollbars for BIMBO Caravan Dark Theme */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3d3835 #141211;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #141211;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3d3835;
+  border-radius: 9999px;
+  border: 1.5px solid #141211;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f59e0b; /* Amber highlight on hover */
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #d97706; /* Darker amber on grab */
+}
+
+::-webkit-scrollbar-corner {
+  background: #141211;
+}
+
+/* Hide scrollbars when scrollbar-none utility is applied */
+.scrollbar-none, .no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+.scrollbar-none::-webkit-scrollbar, .no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Smooth horizontal scroll behavior */
+.horizontal-scroll-smooth {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Thermal POS receipt print formatting */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-receipt, #printable-receipt * {
+    visibility: visible;
+  }
+  #printable-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: 80mm;
+    margin: 0 auto;
+    padding: 10px;
+    box-shadow: none !important;
+    border: none !important;
+    color: black !important;
+    background: white !important;
+  }
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  font-family: system-ui, -apple-system, 'Segoe UI', Tahoma, Arial, sans-serif;
+  text-align: right;
+}
+
+[dir="rtl"] .font-mono {
+  direction: ltr;
+  display: inline-block;
+  unicode-bidi: embed;
+}
+
+/* ========================================================
+   LIGHT THEME: Soft Beige / Cream / Warm Amber Palette
+   ======================================================== */
+html.theme-light,
+.theme-light {
+  background-color: #fbf8f3 !important;
+  color: #1c1917 !important;
+  scrollbar-color: #cfc4b6 #f4eee5;
+}
+
+html.theme-light body,
+.theme-light body {
+  background-color: #fbf8f3 !important;
+  color: #1c1917 !important;
+}
+
+/* Surfaces */
+.theme-light .bg-stone-950 {
+  background-color: #f4eee5 !important;
+}
+
+.theme-light .bg-stone-900 {
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 16px -2px rgba(130, 90, 40, 0.06);
+}
+
+.theme-light .bg-stone-850,
+.theme-light .bg-stone-800 {
+  background-color: #efe8dc !important;
+  color: #292524 !important;
+}
+
+.theme-light .bg-stone-700 {
+  background-color: #e5ded2 !important;
+}
+
+/* Borders */
+.theme-light .border-stone-900,
+.theme-light .border-stone-800,
+.theme-light .border-stone-700 {
+  border-color: #e6ded3 !important;
+}
+
+/* Typography */
+.theme-light .text-white,
+.theme-light .text-stone-100,
+.theme-light .text-stone-200 {
+  color: #1c1917 !important;
+}
+
+.theme-light .text-stone-300,
+.theme-light .text-stone-400 {
+  color: #57534e !important;
+}
+
+.theme-light .text-stone-500,
+.theme-light .text-stone-600 {
+  color: #78716c !important;
+}
+
+.theme-light .placeholder-stone-500::placeholder,
+.theme-light .placeholder-stone-600::placeholder {
+  color: #a8a29e !important;
+}
+
+/* Amber highlights contrast enhancement for light mode */
+.theme-light .text-amber-400 {
+  color: #b45309 !important; /* Rich warm dark amber for readability on white/cream */
+}
+
+.theme-light .border-amber-500\/30,
+.theme-light .border-amber-500\/20 {
+  border-color: rgba(217, 119, 6, 0.3) !important;
+}
+
+.theme-light .bg-amber-500\/10,
+.theme-light .bg-amber-500\/15,
+.theme-light .bg-amber-500\/20 {
+  background-color: rgba(245, 158, 11, 0.16) !important;
+}
+
+/* Light mode scrollbars */
+.theme-light ::-webkit-scrollbar-track {
+  background: #f4eee5;
+}
+
+.theme-light ::-webkit-scrollbar-thumb {
+  background: #cfc4b6;
+  border: 1.5px solid #f4eee5;
+}
+
+.theme-light ::-webkit-scrollbar-thumb:hover {
+  background: #d97706;
+}

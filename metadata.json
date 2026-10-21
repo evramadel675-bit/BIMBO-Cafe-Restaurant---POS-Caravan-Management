@@ -1,0 +1,6 @@
+{
+  "name": "BIMBO Cafe & Restaurant - POS & Caravan Management",
+  "description": "Touch-friendly POS and management system for BIMBO Cafe & Restaurant food caravan featuring dynamic table reordering, takeaway quick checkout, recipe cost & profit calculations, Excel import/export, and monthly archives.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
