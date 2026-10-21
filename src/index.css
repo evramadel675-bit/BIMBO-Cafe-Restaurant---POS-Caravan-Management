@@ -98,94 +98,227 @@
 }
 
 /* ========================================================
-   LIGHT THEME: Soft Beige / Cream / Warm Amber Palette
+   LIGHT THEME: Complete Overhaul (Light Beige / Cream / Warm Amber)
    ======================================================== */
 html.theme-light,
 .theme-light {
-  background-color: #fbf8f3 !important;
-  color: #1c1917 !important;
-  scrollbar-color: #cfc4b6 #f4eee5;
+  background-color: #faf7f2 !important;
+  color: #1e293b !important; /* text-slate-800 */
+  scrollbar-color: #cbd5e1 #f1ece4;
 }
 
 html.theme-light body,
 .theme-light body {
-  background-color: #fbf8f3 !important;
-  color: #1c1917 !important;
+  background-color: #faf7f2 !important;
+  color: #1e293b !important;
 }
 
-/* Surfaces */
+/* Background surfaces with opacity handling (all matching variants) */
+.theme-light [class*="bg-stone-950"],
 .theme-light .bg-stone-950 {
-  background-color: #f4eee5 !important;
+  background-color: #f4ede4 !important; /* Soft warm beige */
 }
 
+.theme-light [class*="bg-stone-900"],
 .theme-light .bg-stone-900 {
-  background-color: #ffffff !important;
-  box-shadow: 0 4px 16px -2px rgba(130, 90, 40, 0.06);
+  background-color: #ffffff !important; /* Crisp white card */
+  box-shadow: 0 3px 12px -1px rgba(120, 80, 20, 0.05);
 }
 
+.theme-light [class*="bg-stone-850"],
+.theme-light [class*="bg-stone-800"],
 .theme-light .bg-stone-850,
 .theme-light .bg-stone-800 {
-  background-color: #efe8dc !important;
-  color: #292524 !important;
+  background-color: #ede5da !important;
+  color: #1e293b !important;
 }
 
+.theme-light [class*="bg-stone-700"],
 .theme-light .bg-stone-700 {
-  background-color: #e5ded2 !important;
+  background-color: #e2dad0 !important;
 }
 
-/* Borders */
-.theme-light .border-stone-900,
-.theme-light .border-stone-800,
-.theme-light .border-stone-700 {
-  border-color: #e6ded3 !important;
+/* Status gradients & badges for light theme */
+.theme-light [class*="from-sky-950"] {
+  --tw-gradient-from: #f0f9ff !important;
+  --tw-gradient-to: #ffffff !important;
+  background-image: linear-gradient(to bottom, #f0f9ff, #ffffff) !important;
 }
 
-/* Typography */
+.theme-light [class*="from-purple-950"] {
+  --tw-gradient-from: #faf5ff !important;
+  --tw-gradient-to: #ffffff !important;
+  background-image: linear-gradient(to bottom, #faf5ff, #ffffff) !important;
+}
+
+.theme-light [class*="bg-sky-950"],
+.theme-light .bg-sky-950 {
+  background-color: #e0f2fe !important;
+  border-color: #bae6fd !important;
+  color: #0369a1 !important;
+}
+
+.theme-light [class*="bg-purple-950"],
+.theme-light .bg-purple-950 {
+  background-color: #f3e8ff !important;
+  border-color: #e9d5ff !important;
+  color: #7e22ce !important;
+}
+
+.theme-light [class*="bg-amber-950"],
+.theme-light .bg-amber-950 {
+  background-color: #fef3c7 !important;
+  border-color: #fde68a !important;
+  color: #92400e !important;
+}
+
+.theme-light [class*="bg-emerald-950"],
+.theme-light .bg-emerald-950 {
+  background-color: #d1fae5 !important;
+  border-color: #a7f3d0 !important;
+  color: #065f46 !important;
+}
+
+.theme-light [class*="bg-red-950"],
+.theme-light .bg-red-950 {
+  background-color: #fee2e2 !important;
+  border-color: #fecaca !important;
+  color: #991b1b !important;
+}
+
+/* Borders across all opacity classes */
+.theme-light [class*="border-stone-900"],
+.theme-light [class*="border-stone-850"],
+.theme-light [class*="border-stone-800"],
+.theme-light [class*="border-stone-700"],
+.theme-light .border-stone-800 {
+  border-color: #e5ded2 !important;
+}
+
+.theme-light .border-dashed {
+  border-color: #d6ccbf !important;
+}
+
+/* Crisp readable typography for Light Theme */
 .theme-light .text-white,
-.theme-light .text-stone-100,
+.theme-light [class*="text-stone-100"],
+.theme-light [class*="text-stone-200"],
 .theme-light .text-stone-200 {
-  color: #1c1917 !important;
+  color: #1e293b !important; /* text-slate-800 / text-stone-900 */
 }
 
+.theme-light [class*="text-stone-300"],
+.theme-light [class*="text-stone-400"],
 .theme-light .text-stone-300,
 .theme-light .text-stone-400 {
-  color: #57534e !important;
+  color: #475569 !important; /* text-slate-600 */
 }
 
-.theme-light .text-stone-500,
-.theme-light .text-stone-600 {
-  color: #78716c !important;
+.theme-light [class*="text-stone-500"],
+.theme-light [class*="text-stone-600"],
+.theme-light .text-stone-500 {
+  color: #64748b !important; /* text-slate-500 */
 }
 
-.theme-light .placeholder-stone-500::placeholder,
-.theme-light .placeholder-stone-600::placeholder {
-  color: #a8a29e !important;
-}
-
-/* Amber highlights contrast enhancement for light mode */
+/* High contrast accent colors on light background */
+.theme-light [class*="text-amber-400"],
+.theme-light [class*="text-amber-300"],
 .theme-light .text-amber-400 {
-  color: #b45309 !important; /* Rich warm dark amber for readability on white/cream */
+  color: #b45309 !important; /* Rich amber-700 */
 }
 
-.theme-light .border-amber-500\/30,
-.theme-light .border-amber-500\/20 {
-  border-color: rgba(217, 119, 6, 0.3) !important;
+.theme-light [class*="text-emerald-400"],
+.theme-light [class*="text-emerald-300"],
+.theme-light .text-emerald-400 {
+  color: #047857 !important; /* Emerald-700 */
 }
 
-.theme-light .bg-amber-500\/10,
-.theme-light .bg-amber-500\/15,
-.theme-light .bg-amber-500\/20 {
-  background-color: rgba(245, 158, 11, 0.16) !important;
+.theme-light [class*="text-red-400"],
+.theme-light [class*="text-rose-300"],
+.theme-light .text-red-400 {
+  color: #dc2626 !important; /* Red-600 */
 }
 
-/* Light mode scrollbars */
+.theme-light [class*="text-sky-300"],
+.theme-light [class*="text-sky-400"] {
+  color: #0284c7 !important;
+}
+
+.theme-light [class*="text-purple-300"],
+.theme-light [class*="text-purple-400"] {
+  color: #7c3aed !important;
+}
+
+/* Inputs, Selects, and Textareas */
+.theme-light input,
+.theme-light select,
+.theme-light textarea {
+  background-color: #ffffff !important;
+  color: #1e293b !important;
+  border-color: #cbd5e1 !important;
+}
+
+.theme-light input::placeholder,
+.theme-light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+.theme-light input:focus,
+.theme-light select:focus,
+.theme-light textarea:focus {
+  border-color: #d97706 !important;
+  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.15) !important;
+  background-color: #ffffff !important;
+}
+
+/* Modal Backdrops & Overlays in Light Mode */
+.theme-light .fixed.inset-0.bg-black\/80,
+.theme-light .fixed.inset-0.bg-black\/85 {
+  background-color: rgba(15, 23, 42, 0.45) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+/* Modal windows */
+.theme-light .bg-stone-900.rounded-3xl,
+.theme-light .bg-stone-900.rounded-2xl {
+  background-color: #ffffff !important;
+  border-color: #e5ded2 !important;
+  box-shadow: 0 20px 40px -8px rgba(120, 80, 20, 0.12) !important;
+}
+
+/* Cart & Takeaway Selected Card Enhancements */
+.theme-light [class*="bg-amber-500\/10"],
+.theme-light [class*="bg-amber-500\/15"],
+.theme-light [class*="bg-amber-500\/20"] {
+  background-color: #fef8ee !important;
+}
+
+.theme-light [class*="border-amber-500\/60"],
+.theme-light [class*="border-amber-500\/50"],
+.theme-light [class*="border-amber-500\/40"] {
+  border-color: #d97706 !important;
+}
+
+/* Table Card Buttons in Light Mode */
+.theme-light button.bg-stone-800 {
+  background-color: #f1ede6 !important;
+  color: #1e293b !important;
+  border-color: #e5ded2 !important;
+}
+
+.theme-light button.bg-stone-800:hover {
+  background-color: #e7dfd4 !important;
+  color: #0f172a !important;
+}
+
+/* Scrollbars for Light Theme */
 .theme-light ::-webkit-scrollbar-track {
-  background: #f4eee5;
+  background: #f4ede4;
 }
 
 .theme-light ::-webkit-scrollbar-thumb {
-  background: #cfc4b6;
-  border: 1.5px solid #f4eee5;
+  background: #cbd5e1;
+  border: 1.5px solid #f4ede4;
 }
 
 .theme-light ::-webkit-scrollbar-thumb:hover {

@@ -179,11 +179,11 @@ export const TakeawayView: React.FC<TakeawayViewProps> = ({
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
       
-      {/* LEFT: FAST-LANE MENU SELECTION (7/12 on desktop) */}
-      <div className="lg:col-span-7 xl:col-span-8 space-y-4">
+      {/* LEFT: FAST-LANE MENU SELECTION */}
+      <div className="lg:col-span-7 xl:col-span-8 flex flex-col space-y-3 min-h-[calc(100vh-190px)]">
         
         {/* Fast-lane header & search */}
-        <div className="bg-stone-900 border border-stone-800 rounded-2xl p-4 space-y-3 shadow-lg">
+        <div className="bg-stone-900 border border-stone-800 rounded-2xl p-3.5 sm:p-4 space-y-3 shadow-lg">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <h2 className="text-xl font-black text-white flex items-center gap-2">
@@ -218,7 +218,7 @@ export const TakeawayView: React.FC<TakeawayViewProps> = ({
                     sound.playTap();
                     setSelectedCategory(cat);
                   }}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition shrink-0 ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition shrink-0 cursor-pointer ${
                     selectedCategory === cat
                       ? 'bg-amber-500 text-stone-950 font-bold shadow-md shadow-amber-500/20'
                       : 'bg-stone-950 text-stone-300 border border-stone-800/80 hover:bg-stone-800 hover:text-white'
@@ -231,8 +231,8 @@ export const TakeawayView: React.FC<TakeawayViewProps> = ({
           </HorizontalScrollContainer>
         </div>
 
-        {/* Menu Items Touch Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3 max-h-[calc(100vh-280px)] overflow-y-auto pr-1">
+        {/* Menu Items Touch Grid - Expanded vertically with multi-column responsiveness */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-2.5 flex-1 min-h-[calc(100vh-260px)] auto-rows-max overflow-y-auto pr-1 pb-4">
           {filteredItems.map((item) => {
             const inCart = cartItems.find(c => c.menuItemId === item.id);
 
@@ -240,10 +240,10 @@ export const TakeawayView: React.FC<TakeawayViewProps> = ({
               <button
                 key={item.id}
                 onClick={() => handleAddToCart(item)}
-                className={`p-3.5 rounded-2xl border text-left transition relative flex flex-col justify-between group active:scale-[0.97] min-h-[110px] ${
+                className={`p-3 rounded-2xl border text-left transition-all relative flex flex-col justify-between group active:scale-[0.97] min-h-[105px] cursor-pointer ${
                   inCart
-                    ? 'bg-amber-500/10 border-amber-500/60 shadow-lg shadow-amber-500/10'
-                    : 'bg-stone-900 border-stone-800 hover:border-stone-700 hover:bg-stone-850'
+                    ? 'bg-amber-500/15 border-amber-500 shadow-lg shadow-amber-500/10 ring-1 ring-amber-500/40'
+                    : 'bg-stone-900 border-stone-800 hover:border-amber-500/50 hover:bg-stone-850 shadow-sm'
                 }`}
               >
                 {/* Badge if any */}
@@ -260,18 +260,18 @@ export const TakeawayView: React.FC<TakeawayViewProps> = ({
                   </span>
                 )}
 
-                <div className={`mt-1 ${inCart ? 'pt-4' : ''}`}>
+                <div className={`mt-0.5 ${inCart ? 'pt-4' : ''}`}>
                   <h4 className="font-bold text-white text-xs sm:text-sm line-clamp-2 leading-tight group-hover:text-amber-400 transition">
                     {item.name}
                   </h4>
                   <span className="text-[10px] text-stone-400 block mt-0.5">{item.category}</span>
                 </div>
 
-                <div className="mt-3 pt-2 border-t border-stone-800/60 flex items-center justify-between">
-                  <span className="font-mono font-black text-amber-400 text-sm">
-                    {item.price} <span className="text-[10px] font-sans text-stone-400">EGP</span>
+                <div className="mt-2.5 pt-2 border-t border-stone-800/60 flex items-center justify-between">
+                  <span className="font-mono font-black text-amber-400 text-xs sm:text-sm">
+                    {item.price} <span className="text-[9px] font-sans text-stone-400">EGP</span>
                   </span>
-                  <span className="text-[9px] text-emerald-400 font-semibold">
+                  <span className="text-[9px] text-emerald-400 font-semibold font-mono">
                     +{item.netProfit.toFixed(0)} net
                   </span>
                 </div>
@@ -282,7 +282,7 @@ export const TakeawayView: React.FC<TakeawayViewProps> = ({
 
       </div>
 
-      {/* RIGHT: LIVE FAST-LANE CART & SETTLEMENT (5/12 on desktop) */}
+      {/* RIGHT: LIVE FAST-LANE CART & SETTLEMENT */}
       <div className="lg:col-span-5 xl:col-span-4 bg-stone-900 border border-stone-800 rounded-3xl p-5 shadow-2xl flex flex-col justify-between sticky top-24">
         
         {/* Cart Header */}
