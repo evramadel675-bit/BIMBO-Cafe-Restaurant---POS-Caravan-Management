@@ -227,7 +227,7 @@ export const TakeawayView: React.FC<TakeawayViewProps> = ({
           {cartItems.length === 0 ? (
             <div className="py-8 text-center text-stone-500 space-y-2">
               <img 
-                src="/assets/aistudio/Gemini_Generated_Image_cbgr2zcbgr2zcbgr_cddd89ba.jpg" 
+                src="/logo-square.png" 
                 alt="BIMBO Cafe & Restaurant" 
                 className="w-12 h-12 rounded-full object-cover mx-auto opacity-70 border border-stone-700"
               />

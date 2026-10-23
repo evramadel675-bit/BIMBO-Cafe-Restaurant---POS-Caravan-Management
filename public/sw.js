@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bimbo-pos-v2';
+const CACHE_NAME = 'bimbo-pos-v3';
 const PRECACHE_URLS = [
   './',
   './index.html',
@@ -7,6 +7,8 @@ const PRECACHE_URLS = [
   '/pwa-512x512.png',
   '/pwa-maskable-512x512.png',
   '/apple-touch-icon.png',
+  '/logo-square.png',
+  '/logo-square.jpg',
   '/assets/aistudio/Gemini_Generated_Image_cbgr2zcbgr2zcbgr_cddd89ba.jpg',
   '/logo.jpg'
 ];

@@ -79,7 +79,7 @@ ${order.paymentMethod === 'cash' ? `Paid Tender:    ${(order.tendered || order.t
             {/* Top caravan header */}
             <div className="text-center pb-3 border-b border-dashed border-stone-400 flex flex-col items-center">
               <img 
-                src="/assets/aistudio/Gemini_Generated_Image_cbgr2zcbgr2zcbgr_cddd89ba.jpg" 
+                src="/logo-square.png" 
                 alt="BIMBO Cafe & Restaurant Logo" 
                 className="w-16 h-16 rounded-full object-cover mb-2 border border-stone-300 shadow-sm"
               />

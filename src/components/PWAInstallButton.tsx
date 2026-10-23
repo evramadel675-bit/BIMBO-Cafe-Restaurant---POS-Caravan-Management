@@ -79,10 +79,9 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ language, t 
                 <img 
                   src="/pwa-192x192.png" 
                   alt="BIMBO Cafe & Restaurant"
-                  className="w-10 h-10 rounded-xl object-cover ring-2 ring-amber-500/50"
+                  className="w-10 h-10 rounded-full object-cover ring-2 ring-amber-500/50"
                   onError={(e) => {
-                    // Fallback to logo.jpg if needed
-                    (e.target as HTMLImageElement).src = '/logo.jpg';
+                    (e.target as HTMLImageElement).src = '/logo-square.png';
                   }}
                 />
                 <div>

@@ -126,9 +126,9 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <div className="relative shrink-0">
               <img 
-                src="/assets/aistudio/Gemini_Generated_Image_cbgr2zcbgr2zcbgr_cddd89ba.jpg" 
+                src="/logo-square.png" 
                 alt="BIMBO Cafe & Restaurant Logo" 
-                className="w-9 h-9 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl object-cover ring-2 ring-amber-500/50 shadow-md sm:shadow-lg shadow-amber-500/25 bg-amber-50"
+                className="w-9 h-9 sm:w-14 sm:h-14 rounded-full object-cover ring-2 ring-amber-500/50 shadow-md sm:shadow-lg shadow-amber-500/25 bg-stone-900"
               />
               <span className="absolute -bottom-0.5 -right-0.5 sm:-bottom-1 sm:-right-1 w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-emerald-500 border-2 border-stone-900" title="POS Active" />
             </div>
