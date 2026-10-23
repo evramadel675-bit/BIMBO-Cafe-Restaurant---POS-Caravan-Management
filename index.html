@@ -6,13 +6,26 @@
     <title>BIMBO Cafe &amp; Restaurant - POS &amp; Caravan Management</title>
     <meta name="description" content="Touch-friendly POS and management system for BIMBO Cafe &amp; Restaurant food caravan featuring dynamic table reordering, takeaway quick checkout, recipe cost &amp; profit calculations, Excel import/export, and monthly archives." />
     <link rel="icon" type="image/jpeg" href="/assets/aistudio/Gemini_Generated_Image_cbgr2zcbgr2zcbgr_cddd89ba.jpg" />
-    <link rel="apple-touch-icon" href="/assets/aistudio/Gemini_Generated_Image_cbgr2zcbgr2zcbgr_cddd89ba.jpg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#d97706" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="BIMBO POS" />
+    <meta name="apple-mobile-web-app-title" content="BIMBO" />
+    <script>
+      // Early native PWA prompt capture
+      window.deferredPrompt = null;
+      window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        window.deferredPrompt = e;
+        window.dispatchEvent(new CustomEvent('bimbo:pwa-prompt-ready'));
+      });
+      window.addEventListener('appinstalled', function () {
+        window.deferredPrompt = null;
+        window.dispatchEvent(new CustomEvent('bimbo:pwa-installed'));
+      });
+    </script>
     <meta property="og:title" content="BIMBO Cafe &amp; Restaurant - POS &amp; Caravan Management" />
     <meta property="og:description" content="Touch-friendly POS and management system for BIMBO Cafe &amp; Restaurant food caravan featuring dynamic table reordering, takeaway quick checkout, recipe cost &amp; profit calculations, Excel import/export, and monthly archives." />
     <meta property="og:image" content="/assets/aistudio/Gemini_Generated_Image_cbgr2zcbgr2zcbgr_cddd89ba.jpg" />

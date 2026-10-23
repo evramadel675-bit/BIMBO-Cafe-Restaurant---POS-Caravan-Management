@@ -1,37 +1,38 @@
 {
   "id": "/",
   "name": "BIMBO Cafe & Restaurant",
-  "short_name": "BIMBO POS",
-  "description": "Touch-friendly POS and management system for BIMBO Cafe & Restaurant food caravan.",
-  "start_url": "./",
-  "scope": "./",
+  "short_name": "BIMBO",
+  "description": "Touch-friendly POS and caravan management system for BIMBO Cafe & Restaurant.",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#141211",
   "theme_color": "#d97706",
   "orientation": "any",
   "icons": [
     {
-      "src": "/assets/aistudio/Gemini_Generated_Image_cbgr2zcbgr2zcbgr_cddd89ba.jpg",
+      "src": "/pwa-192x192.png",
       "sizes": "192x192",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/assets/aistudio/Gemini_Generated_Image_cbgr2zcbgr2zcbgr_cddd89ba.jpg",
+      "src": "/pwa-512x512.png",
       "sizes": "512x512",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/assets/aistudio/Gemini_Generated_Image_cbgr2zcbgr2zcbgr_cddd89ba.jpg",
+      "src": "/pwa-maskable-512x512.png",
       "sizes": "512x512",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/logo.jpg",
+      "src": "/assets/aistudio/Gemini_Generated_Image_cbgr2zcbgr2zcbgr_cddd89ba.jpg",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/jpeg",
+      "purpose": "any"
     }
   ]
 }
