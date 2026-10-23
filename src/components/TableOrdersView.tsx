@@ -629,8 +629,8 @@ export const TableOrdersView: React.FC<TableOrdersViewProps> = ({
 
       {/* MODAL 1: ADD ITEMS TO TABLE DRAWER / MODAL */}
       {currentEditingTable && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-stone-900 border border-stone-800 rounded-3xl max-w-4xl w-full h-[88vh] flex flex-col overflow-hidden shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-stone-900 border border-stone-800 rounded-3xl w-[96%] sm:max-w-4xl h-[90vh] flex flex-col overflow-hidden shadow-2xl">
             
             {/* Header */}
             <div className="p-4 sm:p-5 bg-stone-950 border-b border-stone-800 flex items-center justify-between">
@@ -699,10 +699,10 @@ export const TableOrdersView: React.FC<TableOrdersViewProps> = ({
             </div>
 
             {/* Content: Menu items grid (2/3) + Current table order list (1/3) */}
-            <div className="flex-1 grid grid-cols-1 md:grid-cols-3 overflow-hidden">
+            <div className="flex-1 flex flex-col md:grid md:grid-cols-3 overflow-y-auto md:overflow-hidden">
               
               {/* Menu items picker */}
-              <div className="md:col-span-2 p-4 overflow-y-auto space-y-2 bg-stone-950/30">
+              <div className="md:col-span-2 p-3 sm:p-4 overflow-y-auto space-y-2 bg-stone-950/30 flex-1 min-h-[240px]">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {filteredMenuItems.map((menuItem) => (
                     <button
@@ -843,11 +843,11 @@ export const TableOrdersView: React.FC<TableOrdersViewProps> = ({
 
       {/* MODAL 2: TABLE SETTLEMENT / CHECKOUT MODAL WITH QUEUE REORDER PROMPT */}
       {checkoutTable && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-stone-900 border border-stone-800 rounded-3xl max-w-md w-full overflow-hidden shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-stone-900 border border-stone-800 rounded-3xl w-[95%] sm:max-w-md max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
             
             {/* Modal Header */}
-            <div className="p-5 bg-stone-950 border-b border-stone-800 flex items-center justify-between">
+            <div className="p-4 sm:p-5 bg-stone-950 border-b border-stone-800 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 font-black">
                   T{checkoutTable.tableNumber}
@@ -871,7 +871,7 @@ export const TableOrdersView: React.FC<TableOrdersViewProps> = ({
             </div>
 
             {/* Content */}
-            <div className="p-5 space-y-4">
+            <div className="p-4 sm:p-5 space-y-4 overflow-y-auto flex-1">
               
               {/* Order bill summary */}
               <div className="bg-stone-950 p-3.5 rounded-xl border border-stone-800 space-y-2 text-xs">
@@ -1033,8 +1033,8 @@ export const TableOrdersView: React.FC<TableOrdersViewProps> = ({
 
       {/* MODAL 3: EDIT TABLE META (Customer name, guests, notes) */}
       {editingMetaTable && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-stone-900 border border-stone-800 rounded-2xl max-w-sm w-full p-5 space-y-4 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-stone-900 border border-stone-800 rounded-3xl w-[95%] sm:max-w-sm max-h-[90vh] overflow-y-auto p-5 space-y-4 shadow-xl">
             <h3 className="font-bold text-white text-base flex items-center gap-2">
               <span>Edit Details for Table {editingMetaTable.tableNumber}</span>
             </h3>

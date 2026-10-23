@@ -50,8 +50,8 @@ ${order.paymentMethod === 'cash' ? `Paid Tender:    ${(order.tendered || order.t
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-stone-900 border border-stone-800 rounded-3xl max-w-md w-full overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-stone-900 border border-stone-800 rounded-3xl w-[95%] sm:max-w-md overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
         
         {/* Modal Top Bar */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-stone-800 bg-stone-950/60">

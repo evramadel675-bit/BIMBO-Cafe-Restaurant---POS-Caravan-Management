@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { sound } from '../utils/sound';
 import { HorizontalScrollContainer } from './HorizontalScrollContainer';
+import { PWAInstallButton } from './PWAInstallButton';
 import { Theme, Language, Translations } from '../utils/i18n';
 
 interface HeaderProps {
@@ -118,26 +119,26 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="bg-stone-900 border-b border-stone-800 text-stone-100 sticky top-0 z-40 shadow-xl">
       {/* Top Brand Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20 border-b border-stone-800/80 gap-3">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-14 sm:h-20 border-b border-stone-800/80 gap-2 sm:gap-3">
           
           {/* Logo & Caravan Brand */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <div className="relative shrink-0">
               <img 
                 src="/assets/aistudio/Gemini_Generated_Image_cbgr2zcbgr2zcbgr_cddd89ba.jpg" 
                 alt="BIMBO Cafe & Restaurant Logo" 
-                className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl object-cover ring-2 ring-amber-500/50 shadow-lg shadow-amber-500/25 bg-amber-50"
+                className="w-9 h-9 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl object-cover ring-2 ring-amber-500/50 shadow-md sm:shadow-lg shadow-amber-500/25 bg-amber-50"
               />
-              <span className="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-stone-900" title="POS Active" />
+              <span className="absolute -bottom-0.5 -right-0.5 sm:-bottom-1 sm:-right-1 w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-emerald-500 border-2 border-stone-900" title="POS Active" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white flex items-center gap-1.5">
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <h1 className="text-base sm:text-2xl font-black tracking-tight text-white flex items-center gap-1">
                   <span>BIMBO</span>
-                  <span className="text-amber-400 font-serif font-normal italic text-lg sm:text-xl">Cafe & Restaurant</span>
+                  <span className="hidden sm:inline text-amber-400 font-serif font-normal italic text-sm sm:text-xl">Cafe & Restaurant</span>
                 </h1>
-                <span className="hidden md:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                <span className="hidden lg:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
                   <Sparkles className="w-3 h-3" /> {t.caravanPOS}
                 </span>
               </div>
@@ -168,6 +169,9 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="text-xs font-medium text-stone-300 block font-mono">{currentTime}</span>
               <span className="text-[11px] text-amber-500 font-medium">{t.caravanOnline}</span>
             </div>
+
+            {/* In-App PWA Install Button */}
+            <PWAInstallButton language={language} t={t} />
 
             {/* Language Toggle Button (Arabic / English) */}
             <button

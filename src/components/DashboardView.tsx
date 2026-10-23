@@ -631,8 +631,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
       {/* INSPECT ORDER DETAILS MODAL */}
       {inspectOrder && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-stone-900 border border-stone-800 rounded-2xl max-w-md w-full p-5 space-y-4 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-stone-900 border border-stone-800 rounded-3xl w-[95%] sm:max-w-md max-h-[90vh] overflow-y-auto p-5 space-y-4 shadow-xl">
             <div className="flex items-center justify-between pb-3 border-b border-stone-800">
               <h3 className="font-bold text-white text-base">Order Details: {inspectOrder.orderNumber}</h3>
               <button onClick={() => setInspectOrder(null)} className="text-stone-400 hover:text-white text-sm">

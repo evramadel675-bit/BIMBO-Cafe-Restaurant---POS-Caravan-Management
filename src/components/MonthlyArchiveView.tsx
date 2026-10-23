@@ -246,8 +246,8 @@ export const MonthlyArchiveView: React.FC<MonthlyArchiveViewProps> = ({
 
       {/* CONFIRMATION WORKFLOW MODAL FOR "CLOSE & ARCHIVE MONTH" */}
       {isConfirmModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-stone-900 border border-stone-800 rounded-3xl max-w-lg w-full p-6 space-y-5 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-stone-900 border border-stone-800 rounded-3xl w-[95%] sm:max-w-lg max-h-[90vh] overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-5 shadow-2xl">
             
             <div className="flex items-center gap-3 pb-3 border-b border-stone-800">
               <div className="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
@@ -312,8 +312,8 @@ export const MonthlyArchiveView: React.FC<MonthlyArchiveViewProps> = ({
 
       {/* INSPECT ARCHIVE DETAIL MODAL */}
       {selectedArchiveDetail && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm">
-          <div className="bg-stone-900 border border-stone-800 rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-stone-900 border border-stone-800 rounded-3xl w-[95%] sm:max-w-lg max-h-[90vh] overflow-y-auto p-4 sm:p-6 space-y-4 shadow-2xl">
             <div className="flex items-center justify-between pb-3 border-b border-stone-800">
               <h3 className="font-bold text-white text-base">Archive Snapshot: {selectedArchiveDetail.monthName}</h3>
               <button onClick={() => setSelectedArchiveDetail(null)} className="text-stone-400 hover:text-white">✕</button>

@@ -19,6 +19,8 @@ export interface Translations {
   currency: string;
   themeToggle: string;
   languageToggle: string;
+  installApp: string;
+  installAppIOS: string;
 
   // Tables View
   dineInTables: string;
@@ -120,6 +122,8 @@ export const translations: Record<Language, Translations> = {
     currency: 'EGP',
     themeToggle: 'Switch Theme',
     languageToggle: 'العربية',
+    installApp: 'Install App',
+    installAppIOS: 'Install App (iOS)',
 
     // Tables View
     dineInTables: 'Dine-In Caravan Tables',
@@ -219,6 +223,8 @@ export const translations: Record<Language, Translations> = {
     currency: 'ج.م',
     themeToggle: 'تغيير المظهر',
     languageToggle: 'English',
+    installApp: 'تثبيت التطبيق',
+    installAppIOS: 'تثبيت على آيفون',
 
     // Tables View
     dineInTables: 'طاولات الكرفان والصالة',

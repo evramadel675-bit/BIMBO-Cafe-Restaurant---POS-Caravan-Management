@@ -460,8 +460,8 @@ export const MenuManagementView: React.FC<MenuManagementViewProps> = ({
 
       {/* ADD / EDIT ITEM MODAL WITH REAL-TIME PROFIT CALCULATOR */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-stone-900 border border-stone-800 rounded-3xl max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/85 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-stone-900 border border-stone-800 rounded-3xl w-[95%] sm:max-w-2xl max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
             
             {/* Modal Header */}
             <div className="p-4 sm:p-5 bg-stone-950 border-b border-stone-800 flex items-center justify-between">
