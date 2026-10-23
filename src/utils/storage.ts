@@ -497,6 +497,51 @@ export interface CaravanAppData {
  * Checks localStorage first (synchronous instant read).
  * If empty on first launch, populates with BIMBO defaults and writes to disk.
  */
+/**
+ * 100% Synchronous initial app data loader for instant 0ms startup.
+ * Reads directly from localStorage with zero delay and instant fallback to BIMBO defaults.
+ * Guarantees the POS NEVER hangs on a loading spinner or wait state.
+ */
+export function getInitialAppData(): CaravanAppData {
+  let menu = getLocalItem<MenuItem[]>(STORAGE_KEYS.MENU);
+  let activeTables = getLocalItem<TableOrder[]>(STORAGE_KEYS.TABLES);
+  let closedOrders = getLocalItem<ClosedOrder[]>(STORAGE_KEYS.ORDERS);
+  let archives = getLocalItem<MonthArchive[]>(STORAGE_KEYS.ARCHIVES);
+  let settings = getLocalItem<POSSettings>(STORAGE_KEYS.SETTINGS);
+
+  if (!menu || menu.length === 0) {
+    menu = INITIAL_MENU_ITEMS;
+    setLocalItem(STORAGE_KEYS.MENU, menu);
+  }
+
+  if (!activeTables || activeTables.length === 0) {
+    activeTables = INITIAL_TABLES;
+    setLocalItem(STORAGE_KEYS.TABLES, activeTables);
+  } else {
+    activeTables = activeTables.map(t => ({
+      ...t,
+      status: (t.status === 'cleaning' || t.status === 'reserved' || t.status === 'occupied') ? t.status : 'occupied'
+    }));
+  }
+
+  if (!closedOrders) {
+    closedOrders = generateSeedClosedOrders();
+    setLocalItem(STORAGE_KEYS.ORDERS, closedOrders);
+  }
+
+  if (!archives) {
+    archives = generateSeedArchives();
+    setLocalItem(STORAGE_KEYS.ARCHIVES, archives);
+  }
+
+  if (!settings) {
+    settings = DEFAULT_SETTINGS;
+    setLocalItem(STORAGE_KEYS.SETTINGS, settings);
+  }
+
+  return { menu, activeTables, closedOrders, archives, settings };
+}
+
 export async function loadAppData(): Promise<CaravanAppData> {
   // 1. Primary: Fast synchronous read from localStorage
   let menu = getLocalItem<MenuItem[]>(STORAGE_KEYS.MENU);

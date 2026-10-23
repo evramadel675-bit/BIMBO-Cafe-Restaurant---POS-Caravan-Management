@@ -20,6 +20,7 @@ import { sound } from '../utils/sound';
 import { HorizontalScrollContainer } from './HorizontalScrollContainer';
 import { ConfirmModal, ConfirmModalState } from './ConfirmModal';
 import { Language, Translations, translations } from '../utils/i18n';
+import { BimboLogo } from './BimboLogo';
 
 interface TakeawayViewProps {
   menuItems: MenuItem[];
@@ -226,10 +227,8 @@ export const TakeawayView: React.FC<TakeawayViewProps> = ({
         <div className={`py-3 space-y-2 overflow-y-auto pr-1 ${isDrawer ? 'max-h-[38vh]' : 'max-h-56'}`}>
           {cartItems.length === 0 ? (
             <div className="py-8 text-center text-stone-500 space-y-2">
-              <img 
-                src="/logo-square.png" 
-                alt="BIMBO Cafe & Restaurant" 
-                className="w-12 h-12 rounded-full object-cover mx-auto opacity-70 border border-stone-700"
+              <BimboLogo 
+                className="w-12 h-12 rounded-full mx-auto opacity-70 border border-stone-700"
               />
               <p className="text-xs font-medium text-stone-400">{dict.emptyCartNotice}</p>
               <p className="text-[11px] text-stone-600">{dict.emptyCartSub}</p>

@@ -3,6 +3,7 @@ import { Download, Smartphone, Share, X, Laptop, ExternalLink, CheckCircle2 } fr
 import { usePWAInstall } from '../utils/usePWAInstall';
 import { sound } from '../utils/sound';
 import { Language, Translations } from '../utils/i18n';
+import { BimboLogo } from './BimboLogo';
 
 interface PWAInstallButtonProps {
   language: Language;
@@ -76,13 +77,8 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ language, t 
           >
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-2.5">
-                <img 
-                  src="/pwa-192x192.png" 
-                  alt="BIMBO Cafe & Restaurant"
-                  className="w-10 h-10 rounded-full object-cover ring-2 ring-amber-500/50"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/logo-square.png';
-                  }}
+                <BimboLogo 
+                  className="w-10 h-10 rounded-full ring-2 ring-amber-500/50"
                 />
                 <div>
                   <h3 className="font-black text-sm text-white">

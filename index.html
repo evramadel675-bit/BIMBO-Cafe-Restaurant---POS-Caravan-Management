@@ -5,63 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BIMBO Cafe &amp; Restaurant - POS &amp; Caravan Management</title>
     <meta name="description" content="Touch-friendly POS and management system for BIMBO Cafe &amp; Restaurant food caravan featuring dynamic table reordering, takeaway quick checkout, recipe cost &amp; profit calculations, Excel import/export, and monthly archives." />
-    <link rel="icon" type="image/png" href="/pwa-192x192.png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/png" href="./pwa-192x192.png" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link rel="manifest" href="./manifest.json" />
     <meta name="theme-color" content="#141211" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="BIMBO" />
     <script>
-      // Early native PWA prompt capture
+      // Early native PWA prompt capture (only on http/https)
       window.deferredPrompt = null;
-      window.addEventListener('beforeinstallprompt', function (e) {
-        e.preventDefault();
-        window.deferredPrompt = e;
-        window.dispatchEvent(new CustomEvent('bimbo:pwa-prompt-ready'));
-      });
-      window.addEventListener('appinstalled', function () {
-        window.deferredPrompt = null;
-        window.dispatchEvent(new CustomEvent('bimbo:pwa-installed'));
-      });
+      if (window.location.protocol.startsWith('http')) {
+        window.addEventListener('beforeinstallprompt', function (e) {
+          e.preventDefault();
+          window.deferredPrompt = e;
+          window.dispatchEvent(new CustomEvent('bimbo:pwa-prompt-ready'));
+        });
+        window.addEventListener('appinstalled', function () {
+          window.deferredPrompt = null;
+          window.dispatchEvent(new CustomEvent('bimbo:pwa-installed'));
+        });
+      }
     </script>
     <meta property="og:title" content="BIMBO Cafe &amp; Restaurant - POS &amp; Caravan Management" />
     <meta property="og:description" content="Touch-friendly POS and management system for BIMBO Cafe &amp; Restaurant food caravan featuring dynamic table reordering, takeaway quick checkout, recipe cost &amp; profit calculations, Excel import/export, and monthly archives." />
-    <meta property="og:image" content="/pwa-512x512.png" />
+    <meta property="og:image" content="./pwa-512x512.png" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="/pwa-512x512.png" />
+    <meta name="twitter:image" content="./pwa-512x512.png" />
   </head>
   <body class="bg-[#141211] text-stone-100 antialiased selection:bg-amber-500 selection:text-black">
     <div id="root">
-      <!-- Mobile & PWA launch splash screen: centered circular BIMBO badge on warm dark-charcoal #141211 -->
+      <!-- Mobile & PWA launch splash screen: standalone inline SVG circular BIMBO badge on warm dark-charcoal #141211 -->
       <div 
         id="launch-splash" 
         style="position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #141211; z-index: 9999; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px;"
       >
         <div style="display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 320px; width: 100%;">
-          <div style="position: relative; width: 100%; max-width: 180px; max-height: 160px; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center;">
-            <img 
-              src="/logo-square.png" 
-              alt="BIMBO Cafe & Restaurant"
-              style="width: 100%; height: auto; max-height: 160px; object-fit: contain; margin: 0 auto; border-radius: 9999px; box-shadow: 0 12px 36px rgba(0,0,0,0.6); border: 2px solid rgba(217, 119, 6, 0.45); background-color: #141211;"
-            />
+          <div style="position: relative; width: 140px; height: 140px; max-width: 160px; max-height: 160px; margin: 0 auto 16px auto; display: flex; align-items: center; justify-content: center;">
+            <svg 
+              viewBox="0 0 500 500" 
+              style="width: 100%; height: 100%; object-fit: contain; max-height: 160px; margin: 0 auto; border-radius: 9999px; box-shadow: 0 12px 36px rgba(0,0,0,0.6); border: 2px solid rgba(217, 119, 6, 0.45); background-color: #141211;"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="250" cy="250" r="240" fill="#141211" stroke="#d97706" stroke-width="10" />
+              <circle cx="250" cy="250" r="224" fill="none" stroke="#f59e0b" stroke-width="3" />
+              <path id="splash-top-arc" d="M 70 250 A 180 180 0 0 1 430 250" fill="none" />
+              <text fill="#ffffff" font-size="56" font-weight="900" letter-spacing="3px">
+                <textPath href="#splash-top-arc" startOffset="50%" text-anchor="middle">
+                  BIMBO
+                </textPath>
+              </text>
+              <circle cx="250" cy="265" r="120" fill="#d97706" stroke="#f59e0b" stroke-width="4" />
+              <path d="M 230 180 Q 235 160 230 145" fill="none" stroke="#fef3c7" stroke-width="5" stroke-linecap="round" />
+              <path d="M 250 175 Q 255 155 250 140" fill="none" stroke="#fef3c7" stroke-width="5" stroke-linecap="round" />
+              <path d="M 270 180 Q 275 160 270 145" fill="none" stroke="#fef3c7" stroke-width="5" stroke-linecap="round" />
+              <path d="M 190 220 Q 190 310 250 310 Q 310 310 310 220 Z" fill="#fef3c7" stroke="#b45309" stroke-width="4" />
+              <path d="M 310 235 Q 345 235 345 265 Q 345 295 305 295" fill="none" stroke="#fef3c7" stroke-width="12" stroke-linecap="round" />
+              <ellipse cx="250" cy="225" rx="55" ry="14" fill="#78350f" />
+              <path d="M 235 240 L 255 290" stroke="#d97706" stroke-width="4" stroke-linecap="round" />
+              <path d="M 240 235 L 246 250" stroke="#d97706" stroke-width="3" stroke-linecap="round" />
+              <path d="M 246 238 L 252 253" stroke="#d97706" stroke-width="3" stroke-linecap="round" />
+              <path id="splash-bottom-arc" d="M 80 300 A 180 180 0 0 0 420 300" fill="none" />
+              <text fill="#fde68a" font-size="24" font-weight="800" letter-spacing="2px">
+                <textPath href="#splash-bottom-arc" startOffset="50%" text-anchor="middle">
+                  CAFE &amp; RESTAURANT
+                </textPath>
+              </text>
+              <text x="250" y="445" text-anchor="middle" fill="#d97706" font-size="18" font-weight="700">
+                Est. 2026
+              </text>
+            </svg>
           </div>
           <h1 style="color: #ffffff; font-size: 20px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 6px 0;">
             BIMBO Cafe &amp; Restaurant
           </h1>
-          <p style="color: #d97706; font-size: 13px; font-weight: 600; margin: 0 0 18px 0; letter-spacing: 0.05em; text-transform: uppercase;">
+          <p style="color: #d97706; font-size: 13px; font-weight: 600; margin: 0 0 16px 0; letter-spacing: 0.05em; text-transform: uppercase;">
             POS &amp; Caravan Management
           </p>
           <div style="display: flex; align-items: center; gap: 8px; color: #a8a29e; font-size: 12px; font-weight: 500;">
             <div style="width: 8px; height: 8px; border-radius: 50%; background-color: #d97706;"></div>
-            <span>Loading...</span>
+            <span>Starting POS...</span>
           </div>
         </div>
       </div>
     </div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="./src/main.tsx"></script>
   </body>
 </html>
 

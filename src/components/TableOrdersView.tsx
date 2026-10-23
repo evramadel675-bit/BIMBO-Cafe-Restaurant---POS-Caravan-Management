@@ -22,6 +22,7 @@ import { sound } from '../utils/sound';
 import { HorizontalScrollContainer } from './HorizontalScrollContainer';
 import { ConfirmModal, ConfirmModalState } from './ConfirmModal';
 import { Language, Translations, translations } from '../utils/i18n';
+import { BimboLogo } from './BimboLogo';
 
 interface TableOrdersViewProps {
   tables: TableOrder[];
@@ -351,10 +352,8 @@ export const TableOrdersView: React.FC<TableOrdersViewProps> = ({
       {tables.length === 0 ? (
         <div className="bg-stone-900/60 border border-dashed border-stone-800 rounded-3xl p-12 text-center space-y-4">
           <div className="w-20 h-20 rounded-full mx-auto p-1 bg-amber-500/10 border border-amber-500/30 flex items-center justify-center shadow-lg shadow-amber-500/10">
-            <img 
-              src="/logo-square.png" 
-              alt="BIMBO Cafe & Restaurant" 
-              className="w-16 h-16 rounded-full object-cover"
+            <BimboLogo 
+              className="w-16 h-16 rounded-full" 
             />
           </div>
           <div>

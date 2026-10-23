@@ -2,6 +2,7 @@ import React from 'react';
 import { ClosedOrder, POSSettings } from '../types/pos';
 import { Printer, Check, X, Copy } from 'lucide-react';
 import { sound } from '../utils/sound';
+import { BimboLogo } from './BimboLogo';
 
 interface ReceiptModalProps {
   order: ClosedOrder | null;
@@ -78,10 +79,8 @@ ${order.paymentMethod === 'cash' ? `Paid Tender:    ${(order.tendered || order.t
           >
             {/* Top caravan header */}
             <div className="text-center pb-3 border-b border-dashed border-stone-400 flex flex-col items-center">
-              <img 
-                src="/logo-square.png" 
-                alt="BIMBO Cafe & Restaurant Logo" 
-                className="w-16 h-16 rounded-full object-cover mb-2 border border-stone-300 shadow-sm"
+              <BimboLogo 
+                className="w-16 h-16 rounded-full mb-2 border border-stone-300 shadow-sm"
               />
               <h2 className="text-lg font-black tracking-tight text-stone-900">BIMBO</h2>
               <p className="text-[11px] font-sans font-medium text-stone-700 tracking-wide uppercase">Cafe & Restaurant</p>

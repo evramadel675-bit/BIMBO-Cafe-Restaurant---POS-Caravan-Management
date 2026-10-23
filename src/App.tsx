@@ -8,6 +8,7 @@ import {
   ActiveTab 
 } from './types/pos';
 import { 
+  getInitialAppData,
   loadAppData, 
   persistData, 
   resetAllDataToDemo 
@@ -26,7 +27,6 @@ import { sound } from './utils/sound';
 import { Theme, Language, translations } from './utils/i18n';
 
 export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<ActiveTab>('tables');
 
   // Theme & Language State with LocalStorage persistence
@@ -48,20 +48,13 @@ export default function App() {
     }
   });
 
-  // Core Data State
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-  const [activeTables, setActiveTables] = useState<TableOrder[]>([]);
-  const [closedOrders, setClosedOrders] = useState<ClosedOrder[]>([]);
-  const [archives, setArchives] = useState<MonthArchive[]>([]);
-  const [settings, setSettings] = useState<POSSettings>({
-    caravanName: 'BIMBO Cafe & Restaurant',
-    currency: 'EGP',
-    address: 'Caravan Hub, North Coast & City Walkways',
-    phone: '+20 100 246 8901',
-    soundEffects: true,
-    enableTax: false,
-    taxRatePercent: 14
-  });
+  // Synchronous initial load from localStorage: renders in 0ms!
+  const [initialData] = useState(() => getInitialAppData());
+  const [menuItems, setMenuItems] = useState<MenuItem[]>(initialData.menu);
+  const [activeTables, setActiveTables] = useState<TableOrder[]>(initialData.activeTables);
+  const [closedOrders, setClosedOrders] = useState<ClosedOrder[]>(initialData.closedOrders);
+  const [archives, setArchives] = useState<MonthArchive[]>(initialData.archives);
+  const [settings, setSettings] = useState<POSSettings>(initialData.settings);
 
   // Modal & Toast State
   const [receiptOrder, setReceiptOrder] = useState<ClosedOrder | null>(null);
@@ -111,24 +104,22 @@ export default function App() {
 
   const t = translations[language];
 
-  // Initial Load from IndexedDB / LocalStorage
+  // Non-blocking background sync with IndexedDB (data already loaded synchronously above!)
   useEffect(() => {
-    const init = async () => {
-      try {
-        const data = await loadAppData();
-        setMenuItems(data.menu);
-        setActiveTables(data.activeTables);
-        setClosedOrders(data.closedOrders);
-        setArchives(data.archives);
-        setSettings(data.settings);
-        sound.enabled = data.settings.soundEffects;
-      } catch (err) {
-        console.error('Failed to load local app data:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    init();
+    loadAppData()
+      .then((data) => {
+        if (data) {
+          setMenuItems(data.menu);
+          setActiveTables(data.activeTables);
+          setClosedOrders(data.closedOrders);
+          setArchives(data.archives);
+          setSettings(data.settings);
+          sound.enabled = data.settings.soundEffects;
+        }
+      })
+      .catch((err) => {
+        console.warn('Background IDB sync notice:', err);
+      });
   }, []);
 
   // Today's metrics for header
@@ -239,7 +230,6 @@ export default function App() {
 
   // Handler: Reset Demo Data
   const handleResetDemo = async () => {
-    setIsLoading(true);
     try {
       const fresh = await resetAllDataToDemo();
       setMenuItems(fresh.menu);
@@ -248,28 +238,10 @@ export default function App() {
       setArchives(fresh.archives);
       setSettings(fresh.settings);
       showToast('BIMBO Cafe & Restaurant demo data refreshed successfully!');
-    } finally {
-      setIsLoading(false);
+    } catch (err) {
+      console.warn('Demo reset notice:', err);
     }
   };
-
-  if (isLoading) {
-    return (
-      <div 
-        dir={language === 'ar' ? 'rtl' : 'ltr'}
-        className={`min-h-screen flex flex-col items-center justify-center space-y-4 ${
-          theme === 'light' ? 'bg-[#fbf8f3] text-stone-900' : 'bg-stone-950 text-white'
-        }`}
-      >
-        <div className="w-12 h-12 rounded-2xl bg-amber-500 animate-pulse flex items-center justify-center text-stone-950 font-black text-xl shadow-lg shadow-amber-500/20">
-          ☕
-        </div>
-        <p className="text-sm font-semibold tracking-wide">
-          {language === 'ar' ? 'جاري تحميل نظام كرفان بيمبو...' : 'Loading BIMBO Caravan POS System...'}
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div 
