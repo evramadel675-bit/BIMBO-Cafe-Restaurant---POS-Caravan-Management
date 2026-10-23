@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bimbo-pos-v3';
+const CACHE_NAME = 'bimbo-pos-v4';
 const PRECACHE_URLS = [
   './',
   './index.html',
