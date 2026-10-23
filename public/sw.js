@@ -1,23 +1,22 @@
-const CACHE_NAME = 'bimbo-pos-v4';
+const CACHE_NAME = 'bimbo-pos-offline-v1';
 const PRECACHE_URLS = [
-  './',
-  './index.html',
-  './manifest.json',
+  '/',
+  '/index.html',
+  '/manifest.json',
   '/pwa-192x192.png',
   '/pwa-512x512.png',
   '/pwa-maskable-512x512.png',
   '/apple-touch-icon.png',
+  '/favicon.png',
   '/logo-square.png',
-  '/logo-square.jpg',
-  '/assets/aistudio/Gemini_Generated_Image_cbgr2zcbgr2zcbgr_cddd89ba.jpg',
-  '/logo.jpg'
+  '/logo-square.jpg'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(PRECACHE_URLS).catch((err) => {
-        console.warn('Precache partial fallback:', err);
+        console.warn('Precache partial warning:', err);
       });
     }).then(() => self.skipWaiting())
   );
@@ -38,40 +37,56 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   
-  // Navigation: try network, fallback to cached index
+  // Navigation: try network, fallback to cached index.html immediately if offline
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      fetch(event.request).catch(() => caches.match('./index.html') || caches.match('/'))
+      fetch(event.request).catch(async () => {
+        return (
+          (await caches.match('/index.html')) ||
+          (await caches.match('./index.html')) ||
+          (await caches.match('/'))
+        );
+      })
     );
     return;
   }
 
-  // Assets: cache-first with network fallback & background update
+  // Assets: cache-first with network fallback & background cache update
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
-        fetch(event.request).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, networkResponse);
-            });
-          }
-        }).catch(() => {});
+        // Asynchronously revalidate in background if online
+        fetch(event.request)
+          .then((networkResponse) => {
+            if (networkResponse && networkResponse.status === 200) {
+              caches.open(CACHE_NAME).then((cache) => {
+                cache.put(event.request, networkResponse);
+              });
+            }
+          })
+          .catch(() => {
+            // Offline - silence background fetch errors
+          });
         return cachedResponse;
       }
 
-      return fetch(event.request).then((response) => {
-        if (!response || response.status !== 200 || response.type !== 'basic') {
+      return fetch(event.request)
+        .then((response) => {
+          if (!response || response.status !== 200) {
+            return response;
+          }
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
           return response;
-        }
-        const responseToCache = response.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
+        })
+        .catch(() => {
+          // If offline and request is an image or icon, try fallback to cached square logo
+          if (event.request.destination === 'image') {
+            return caches.match('/logo-square.png');
+          }
         });
-        return response;
-      }).catch(() => {
-        // Return nothing if offline and not in cache
-      });
     })
   );
 });

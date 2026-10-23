@@ -17,6 +17,7 @@ import {
   downloadMenuExcelTemplate, 
   parseMenuExcelFile 
 } from '../utils/excel';
+import { exportDatabaseBackupJSON } from '../utils/storage';
 import { sound } from '../utils/sound';
 
 interface ExcelIOViewProps {
@@ -54,7 +55,7 @@ export const ExcelIOView: React.FC<ExcelIOViewProps> = ({
       sound.playCash();
       onShowToast('Excel workbook exported and downloaded successfully!');
     } catch (err) {
-      alert(`Export error: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      onShowToast(`Export error: ${err instanceof Error ? err.message : 'Unknown error'}`);
     }
   };
 
@@ -83,11 +84,11 @@ export const ExcelIOView: React.FC<ExcelIOViewProps> = ({
           filename: file.name
         });
       } else {
-        alert(res.message);
+        onShowToast(res.message);
       }
     } catch (err) {
       setIsParsing(false);
-      alert(`Failed to parse Excel file: ${err instanceof Error ? err.message : 'Unknown'}`);
+      onShowToast(`Failed to parse Excel file: ${err instanceof Error ? err.message : 'Unknown'}`);
     }
 
     // Reset input
@@ -252,6 +253,39 @@ export const ExcelIOView: React.FC<ExcelIOViewProps> = ({
           </div>
         </div>
 
+      </div>
+
+      {/* 100% OFFLINE LOCAL BACKUP CARD */}
+      <div className="bg-stone-900 border border-stone-800 rounded-3xl p-6 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5">
+          <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+            <Database className="w-6 h-6" />
+          </div>
+          <div>
+            <h3 className="font-black text-white text-base sm:text-lg flex items-center gap-2">
+              <span>100% Offline Local Database Backup</span>
+              <span className="px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-bold uppercase">
+                Zero Cloud
+              </span>
+            </h3>
+            <p className="text-xs text-stone-400 max-w-xl">
+              All tables, menu prices, recipe costs, and sales records are stored locally on this device in localStorage &amp; IndexedDB. Download a complete offline backup file (.json) to store on a USB drive or transfer to another device.
+            </p>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            sound.playCash();
+            exportDatabaseBackupJSON();
+            onShowToast('Offline database backup (.json) saved to your device!');
+          }}
+          className="px-5 py-3 rounded-2xl bg-stone-800 hover:bg-stone-700 text-stone-100 font-bold text-xs flex items-center gap-2 border border-stone-700 hover:border-amber-500/50 transition shadow shrink-0 cursor-pointer active:scale-95"
+        >
+          <Download className="w-4 h-4 text-amber-400" />
+          <span>Export Local Backup (.json)</span>
+        </button>
       </div>
 
       {/* IMPORT PREVIEW & CONFIRMATION MODAL */}

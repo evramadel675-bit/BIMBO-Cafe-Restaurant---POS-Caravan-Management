@@ -1,7 +1,17 @@
 import { MenuItem, TableOrder, ClosedOrder, MonthArchive, POSSettings, CostBreakdown } from '../types/pos';
 
-const DB_NAME = 'BIMBO_CARAVAN_POS_DB';
-const DB_VERSION = 1;
+export const STORAGE_KEYS = {
+  MENU: 'bimbo_menu',
+  TABLES: 'bimbo_tables',
+  ORDERS: 'bimbo_orders',
+  ARCHIVES: 'bimbo_archives',
+  SETTINGS: 'bimbo_settings',
+  THEME: 'bimbo_theme',
+  LANG: 'bimbo_lang'
+} as const;
+
+const IDB_NAME = 'BIMBO_CARAVAN_POS_OFFLINE_DB';
+const IDB_VERSION = 1;
 
 export const DEFAULT_SETTINGS: POSSettings = {
   caravanName: 'BIMBO Cafe & Restaurant',
@@ -301,12 +311,10 @@ export const INITIAL_TABLES: TableOrder[] = [
   }
 ];
 
-// Generate some seed closed orders for current month so dashboard is alive
 export function generateSeedClosedOrders(): ClosedOrder[] {
   const orders: ClosedOrder[] = [];
   const now = new Date();
   
-  // Seed past orders over the past few days of current month
   const pastDaysOffsets = [0, 0, 0, 1, 1, 2, 3, 4, 5];
   const itemsPool = INITIAL_MENU_ITEMS;
 
@@ -314,7 +322,6 @@ export function generateSeedClosedOrders(): ClosedOrder[] {
     const orderDate = new Date(now.getTime() - daysAgo * 24 * 60 * 60 * 1000 - (idx * 45 + 20) * 60 * 1000);
     const isTakeaway = idx % 2 === 0;
     
-    // Pick 1-3 items
     const item1 = itemsPool[idx % itemsPool.length];
     const item2 = itemsPool[(idx + 3) % itemsPool.length];
     
@@ -369,7 +376,6 @@ export function generateSeedClosedOrders(): ClosedOrder[] {
   return orders;
 }
 
-// Seed previous month archive for historical review demonstration
 export function generateSeedArchives(): MonthArchive[] {
   const prevDate = new Date();
   prevDate.setMonth(prevDate.getMonth() - 1);
@@ -398,13 +404,41 @@ export function generateSeedArchives(): MonthArchive[] {
   ];
 }
 
-// IndexedDB Helper
+/* =====================================================================
+   SYNCHRONOUS LOCALSTORAGE PERSISTENCE (100% Offline Primary Engine)
+   ===================================================================== */
+
+export function getLocalItem<T>(key: string): T | null {
+  if (typeof window === 'undefined' || !window.localStorage) return null;
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    return JSON.parse(raw) as T;
+  } catch (err) {
+    console.warn(`[Offline POS] Error reading ${key} from localStorage:`, err);
+    return null;
+  }
+}
+
+export function setLocalItem<T>(key: string, value: T): void {
+  if (typeof window === 'undefined' || !window.localStorage) return;
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (err) {
+    console.warn(`[Offline POS] Error writing ${key} to localStorage:`, err);
+  }
+}
+
+/* =====================================================================
+   INDEXEDDB SECONDARY MIRROR (Offline High-Capacity Storage)
+   ===================================================================== */
+
 function openIndexedDB(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     if (typeof window === 'undefined' || !window.indexedDB) {
       return reject(new Error('IndexedDB not supported'));
     }
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
+    const request = indexedDB.open(IDB_NAME, IDB_VERSION);
     request.onupgradeneeded = (e) => {
       const db = (e.target as IDBOpenDBRequest).result;
       if (!db.objectStoreNames.contains('store')) {
@@ -442,11 +476,14 @@ async function idbSet<T>(key: string, value: T): Promise<void> {
       tx.onerror = () => resolve();
     });
   } catch {
-    // fallback
+    // Fail silently in offline environment
   }
 }
 
-// App Storage API
+/* =====================================================================
+   APP DATA LIFECYCLE (Load & Instant Local Persistence)
+   ===================================================================== */
+
 export interface CaravanAppData {
   menu: MenuItem[];
   activeTables: TableOrder[];
@@ -455,88 +492,81 @@ export interface CaravanAppData {
   settings: POSSettings;
 }
 
+/**
+ * Loads all app state completely offline.
+ * Checks localStorage first (synchronous instant read).
+ * If empty on first launch, populates with BIMBO defaults and writes to disk.
+ */
 export async function loadAppData(): Promise<CaravanAppData> {
-  // Try IndexedDB first, then localStorage
-  let menu = await idbGet<MenuItem[]>('bimbo_menu');
-  let activeTables = await idbGet<TableOrder[]>('bimbo_tables');
-  let closedOrders = await idbGet<ClosedOrder[]>('bimbo_orders');
-  let archives = await idbGet<MonthArchive[]>('bimbo_archives');
-  let settings = await idbGet<POSSettings>('bimbo_settings');
+  // 1. Primary: Fast synchronous read from localStorage
+  let menu = getLocalItem<MenuItem[]>(STORAGE_KEYS.MENU);
+  let activeTables = getLocalItem<TableOrder[]>(STORAGE_KEYS.TABLES);
+  let closedOrders = getLocalItem<ClosedOrder[]>(STORAGE_KEYS.ORDERS);
+  let archives = getLocalItem<MonthArchive[]>(STORAGE_KEYS.ARCHIVES);
+  let settings = getLocalItem<POSSettings>(STORAGE_KEYS.SETTINGS);
 
-  // LocalStorage fallback if IDB was empty
-  if (!menu && typeof localStorage !== 'undefined') {
-    const localMenu = localStorage.getItem('bimbo_menu');
-    if (localMenu) {
-      try { menu = JSON.parse(localMenu); } catch {}
-    }
-  }
-  if (!activeTables && typeof localStorage !== 'undefined') {
-    const localTables = localStorage.getItem('bimbo_tables');
-    if (localTables) {
-      try { activeTables = JSON.parse(localTables); } catch {}
-    }
-  }
-  if (!closedOrders && typeof localStorage !== 'undefined') {
-    const localOrders = localStorage.getItem('bimbo_orders');
-    if (localOrders) {
-      try { closedOrders = JSON.parse(localOrders); } catch {}
-    }
-  }
-  if (!archives && typeof localStorage !== 'undefined') {
-    const localArch = localStorage.getItem('bimbo_archives');
-    if (localArch) {
-      try { archives = JSON.parse(localArch); } catch {}
-    }
-  }
-  if (!settings && typeof localStorage !== 'undefined') {
-    const localSet = localStorage.getItem('bimbo_settings');
-    if (localSet) {
-      try { settings = JSON.parse(localSet); } catch {}
-    }
-  }
+  // 2. Secondary fallback: Check IndexedDB if localStorage was empty for any key
+  if (!menu) menu = await idbGet<MenuItem[]>(STORAGE_KEYS.MENU);
+  if (!activeTables) activeTables = await idbGet<TableOrder[]>(STORAGE_KEYS.TABLES);
+  if (!closedOrders) closedOrders = await idbGet<ClosedOrder[]>(STORAGE_KEYS.ORDERS);
+  if (!archives) archives = await idbGet<MonthArchive[]>(STORAGE_KEYS.ARCHIVES);
+  if (!settings) settings = await idbGet<POSSettings>(STORAGE_KEYS.SETTINGS);
 
-  // Populate defaults if still null
+  // 3. First run initialization: Auto-populate with defaults & commit to localStorage
   if (!menu || menu.length === 0) {
     menu = INITIAL_MENU_ITEMS;
-    await persistData('bimbo_menu', menu);
+    setLocalItem(STORAGE_KEYS.MENU, menu);
+    idbSet(STORAGE_KEYS.MENU, menu).catch(() => {});
   }
+
   if (!activeTables) {
     activeTables = INITIAL_TABLES;
-    await persistData('bimbo_tables', activeTables);
+    setLocalItem(STORAGE_KEYS.TABLES, activeTables);
+    idbSet(STORAGE_KEYS.TABLES, activeTables).catch(() => {});
   } else {
+    // Ensure table statuses are normalized
     activeTables = activeTables.map(t => ({
       ...t,
       status: (t.status === 'cleaning' || t.status === 'reserved' || t.status === 'occupied') ? t.status : 'occupied'
     }));
   }
+
   if (!closedOrders) {
     closedOrders = generateSeedClosedOrders();
-    await persistData('bimbo_orders', closedOrders);
+    setLocalItem(STORAGE_KEYS.ORDERS, closedOrders);
+    idbSet(STORAGE_KEYS.ORDERS, closedOrders).catch(() => {});
   }
+
   if (!archives) {
     archives = generateSeedArchives();
-    await persistData('bimbo_archives', archives);
+    setLocalItem(STORAGE_KEYS.ARCHIVES, archives);
+    idbSet(STORAGE_KEYS.ARCHIVES, archives).catch(() => {});
   }
+
   if (!settings) {
     settings = DEFAULT_SETTINGS;
-    await persistData('bimbo_settings', settings);
+    setLocalItem(STORAGE_KEYS.SETTINGS, settings);
+    idbSet(STORAGE_KEYS.SETTINGS, settings).catch(() => {});
   }
 
   return { menu, activeTables, closedOrders, archives, settings };
 }
 
-export async function persistData<T>(key: string, value: T): Promise<void> {
-  // Sync to both IndexedDB and LocalStorage
-  await idbSet(key, value);
-  if (typeof localStorage !== 'undefined') {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch {
-      // quota exceeded or private mode
-    }
-  }
+/**
+ * Instantly persists data locally.
+ * - Writes synchronously to localStorage (guarantees persistence even if app closes immediately).
+ * - Asynchronously mirrors to IndexedDB for high-capacity backup.
+ */
+export function persistData<T>(key: string, value: T): void {
+  // 1. Instant synchronous write to localStorage
+  setLocalItem(key, value);
+  // 2. Asynchronous background mirror to IndexedDB
+  idbSet(key, value).catch(() => {});
 }
 
+/**
+ * Resets all local data to clean demo dataset and updates localStorage.
+ */
 export async function resetAllDataToDemo(): Promise<CaravanAppData> {
   const freshData: CaravanAppData = {
     menu: INITIAL_MENU_ITEMS,
@@ -546,11 +576,36 @@ export async function resetAllDataToDemo(): Promise<CaravanAppData> {
     settings: DEFAULT_SETTINGS
   };
 
-  await persistData('bimbo_menu', freshData.menu);
-  await persistData('bimbo_tables', freshData.activeTables);
-  await persistData('bimbo_orders', freshData.closedOrders);
-  await persistData('bimbo_archives', freshData.archives);
-  await persistData('bimbo_settings', freshData.settings);
+  persistData(STORAGE_KEYS.MENU, freshData.menu);
+  persistData(STORAGE_KEYS.TABLES, freshData.activeTables);
+  persistData(STORAGE_KEYS.ORDERS, freshData.closedOrders);
+  persistData(STORAGE_KEYS.ARCHIVES, freshData.archives);
+  persistData(STORAGE_KEYS.SETTINGS, freshData.settings);
 
   return freshData;
+}
+
+/**
+ * Exports complete offline database as a portable JSON backup file.
+ */
+export function exportDatabaseBackupJSON(): void {
+  const data = {
+    app: 'BIMBO Cafe & Restaurant POS',
+    exportedAt: new Date().toISOString(),
+    menu: getLocalItem(STORAGE_KEYS.MENU) || INITIAL_MENU_ITEMS,
+    tables: getLocalItem(STORAGE_KEYS.TABLES) || INITIAL_TABLES,
+    orders: getLocalItem(STORAGE_KEYS.ORDERS) || [],
+    archives: getLocalItem(STORAGE_KEYS.ARCHIVES) || [],
+    settings: getLocalItem(STORAGE_KEYS.SETTINGS) || DEFAULT_SETTINGS
+  };
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `BIMBO_POS_Backup_${new Date().toISOString().split('T')[0]}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }

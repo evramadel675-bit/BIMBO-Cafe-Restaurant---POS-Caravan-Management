@@ -59,7 +59,7 @@ export const MonthlyArchiveView: React.FC<MonthlyArchiveViewProps> = ({
       sound.playCash();
       onShowToast(`Downloaded ${arch.monthName} backup spreadsheet!`);
     } catch (err) {
-      alert(`Error exporting archive: ${err instanceof Error ? err.message : 'Unknown'}`);
+      onShowToast(`Error exporting archive: ${err instanceof Error ? err.message : 'Unknown'}`);
     }
   };
 

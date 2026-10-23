@@ -116,7 +116,7 @@ export const translations: Record<Language, Translations> = {
     // Header
     todayRevenue: "Today's Revenue",
     todayProfit: "Today's Profit",
-    caravanOnline: 'Caravan Online',
+    caravanOnline: '100% Offline (Local)',
     soundEffects: 'Sound FX',
     caravanPOS: 'Caravan POS',
     currency: 'EGP',
@@ -217,7 +217,7 @@ export const translations: Record<Language, Translations> = {
     // Header
     todayRevenue: 'إيراد اليوم',
     todayProfit: 'أرباح اليوم',
-    caravanOnline: 'الكرفان متصل',
+    caravanOnline: 'أوفلاين 100% (تخزين محلي)',
     soundEffects: 'الأصوات',
     caravanPOS: 'نظام كرفان POS',
     currency: 'ج.م',
